@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusVPN Settings & Custom Nodes</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="../icons/icon48.png" alt="NexusVPN" class="brand-logo">
+        <div class="brand-info">
+          <h2>Nexus<span>VPN</span></h2>
+          <span class="badge">PRO SETTINGS</span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="custom-nodes">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+          </svg>
+          Custom Proxies
+        </button>
+        <button class="nav-item" data-tab="split-tunnel">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          Split Tunneling
+        </button>
+        <button class="nav-item" data-tab="diagnostics">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+          Node Diagnostics
+        </button>
+        <button class="nav-item" data-tab="general">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          General & Security
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="footer-status">
+          <span class="dot"></span>
+          <span>Unlimited Free License</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-body">
+      <!-- Notification Banner -->
+      <div id="toast" class="toast hidden"></div>
+
+      <!-- TAB 1: Custom Proxies -->
+      <section id="custom-nodes" class="tab-pane active">
+        <div class="pane-header">
+          <div>
+            <h1>Custom Proxies & Private Nodes</h1>
+            <p>Add your own private SOCKS5, HTTPS, or HTTP proxies for unlimited personal tunneling.</p>
+          </div>
+          <button id="openAddNodeBtn" class="btn btn-primary">+ Add New Proxy</button>
+        </div>
+
+        <!-- Add Node Form (Collapsible) -->
+        <div id="addNodeFormCard" class="card form-card hidden">
+          <h3>Add Custom Proxy Server</h3>
+          <form id="addProxyForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="nodeName">Server Label / Friendly Name</label>
+                <input type="text" id="nodeName" placeholder="e.g. My Fast US Node" required>
+              </div>
+              <div class="form-group">
+                <label for="nodeScheme">Protocol Scheme</label>
+                <select id="nodeScheme">
+                  <option value="https">HTTPS (SSL/TLS Encrypted)</option>
+                  <option value="socks5" selected>SOCKS5 (Fast & Versatile)</option>
+                  <option value="http">HTTP</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="nodeHost">Server Address (Host / IP)</label>
+                <input type="text" id="nodeHost" placeholder="e.g. 192.168.1.100 or proxy.domain.com" required>
+              </div>
+              <div class="form-group">
+                <label for="nodePort">Port</label>
+                <input type="number" id="nodePort" placeholder="1080" min="1" max="65535" required>
+              </div>
+              <div class="form-group">
+                <label for="nodeCountry">Country / Region</label>
+                <input type="text" id="nodeCountry" placeholder="e.g. Germany">
+              </div>
+              <div class="form-group">
+                <label for="nodeFlag">Flag Emoji</label>
+                <input type="text" id="nodeFlag" placeholder="🌐" value="🌐" maxlength="4">
+              </div>
+            </div>
+
+            <!-- Optional Auth -->
+            <div class="auth-collapsible">
+              <span class="auth-title">Authentication (Optional for password-protected proxies)</span>
+              <div class="form-grid" style="margin-top: 10px;">
+                <div class="form-group">
+                  <label for="nodeUser">Username</label>
+                  <input type="text" id="nodeUser" placeholder="Optional">
+                </div>
+                <div class="form-group">
+                  <label for="nodePass">Password</label>
+                  <input type="password" id="nodePass" placeholder="Optional">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Save Proxy Node</button>
+              <button type="button" id="cancelAddNodeBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Custom Node List -->
+        <div class="card">
+          <h3>Your Custom Proxy List</h3>
+          <div id="customNodesList" class="nodes-container">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: Split Tunneling -->
+      <section id="split-tunnel" class="tab-pane">
+        <div class="pane-header">
+          <div>
+            <h1>Split Tunneling & Bypass Rules</h1>
+            <p>Specify domains or IP subnets that should connect directly, bypassing the VPN proxy.</p>
+          </div>
+          <button id="saveBypassBtn" class="btn btn-primary">Save Rules</button>
+        </div>
+
+        <div class="card">
+          <h3>Excluded Domains & Networks</h3>
+          <p class="card-desc">Traffic matching these rules will bypass the proxy for maximum speed. One rule per line.</p>
+          <textarea id="bypassTextarea" rows="10" class="code-textarea" placeholder="&lt;local&gt;&#10;127.0.0.1&#10;localhost&#10;*.mybank.com&#10;192.168.*"></textarea>
+          <div class="card-footer-actions">
+            <button id="restoreDefaultBypassBtn" class="btn btn-secondary">Reset to Default Rules</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: Diagnostics -->
+      <section id="diagnostics" class="tab-pane">
+        <div class="pane-header">
+          <div>
+            <h1>Node Diagnostics & Speed Benchmarks</h1>
+            <p>Test latency and responsiveness across all available free and custom nodes.</p>
+          </div>
+          <button id="runDiagnosticsBtn" class="btn btn-primary">Ping All Servers</button>
+        </div>
+
+        <div class="card">
+          <div class="diag-table-header">
+            <span>Location</span>
+            <span>Host / Port</span>
+            <span>Protocol</span>
+            <span>Status</span>
+            <span>Latency</span>
+          </div>
+          <div id="diagnosticsList" class="diag-table-body">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: General Settings -->
+      <section id="general" class="tab-pane">
+        <div class="pane-header">
+          <div>
+            <h1>General & Privacy Settings</h1>
+            <p>Fine-tune network guardrails, auto-connection, and data backups.</p>
+          </div>
+        </div>
+
+        <div class="card settings-list">
+          <div class="setting-row">
+            <div>
+              <h4>Auto-Connect on Startup</h4>
+              <p>Automatically activate the secure VPN tunnel whenever Google Chrome starts.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="optAutoConnect">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <h4>WebRTC IP Leak Guard</h4>
+              <p>Prevents WebRTC from leaking your real ISP IP over non-proxied UDP packets.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="optWebRtc" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <h4>Speed Shield (Ad & Tracker Blocker)</h4>
+              <p>Blocks invasive tracking scripts to boost page load speed and save bandwidth.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="optAdBlock" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Emergency Reset & Backup -->
+        <div class="card">
+          <h3>Emergency Network Reset</h3>
+          <p class="card-desc">If you experience connection problems with other extensions, this instantly resets Chrome's proxy settings back to direct.</p>
+          <button id="optEmergencyResetBtn" class="btn btn-danger">Reset Proxy Settings</button>
+        </div>
+
+        <div class="card">
+          <h3>Configuration Backup</h3>
+          <p class="card-desc">Export your custom servers and preferences to a JSON backup file or restore them anytime.</p>
+          <div class="btn-group">
+            <button id="exportConfigBtn" class="btn btn-secondary">Export Backup</button>
+            <label class="btn btn-secondary" style="cursor: pointer;">
+              Import Backup
+              <input type="file" id="importConfigFile" accept=".json" style="display: none;">
+            </label>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
