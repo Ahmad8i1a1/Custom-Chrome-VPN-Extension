@@ -256,7 +256,10 @@ document.addEventListener('DOMContentLoaded', async () => {
    * Open / Close Server Picker Modal
    */
   openServerSelectorBtn.addEventListener('click', () => {
-    serverModal.classList.add('open');
+    serverModal.style.display = 'flex';
+    requestAnimationFrame(() => {
+      serverModal.classList.add('open');
+    });
     serverSearchInput.value = '';
     renderServerList();
     serverSearchInput.focus();
@@ -264,6 +267,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   closeModalBtn.addEventListener('click', () => {
     serverModal.classList.remove('open');
+    setTimeout(() => {
+      if (!serverModal.classList.contains('open')) {
+        serverModal.style.display = 'none';
+      }
+    }, 250);
   });
 
   serverSearchInput.addEventListener('input', () => {
@@ -312,6 +320,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         selectedServerId = server.id;
         await chrome.storage.local.set({ selectedServerId: server.id });
         serverModal.classList.remove('open');
+        setTimeout(() => {
+          if (!serverModal.classList.contains('open')) {
+            serverModal.style.display = 'none';
+          }
+        }, 250);
 
         // If currently connected, seamlessly reconnect to chosen server
         if (isConnected) {

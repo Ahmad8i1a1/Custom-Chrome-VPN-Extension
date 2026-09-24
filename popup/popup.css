@@ -121,11 +121,11 @@ body {
 /* Main Content */
 .main-content {
   flex: 1;
-  padding: 16px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  overflow-y: auto;
+  gap: 8px;
+  overflow-y: hidden;
 }
 
 /* Custom Scrollbar */
@@ -147,13 +147,13 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 .pulse-ring-outer {
   position: absolute;
-  width: 120px;
-  height: 120px;
+  width: 106px;
+  height: 106px;
   border-radius: 50%;
   pointer-events: none;
   transition: all 0.4s ease;
@@ -187,8 +187,8 @@ body {
 }
 
 .power-button {
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background: linear-gradient(145deg, #151e2f, #0d131f);
   border: 3px solid #24324a;
@@ -211,8 +211,8 @@ body {
 }
 
 .power-icon {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   transition: transform 0.2s ease;
 }
 
@@ -494,13 +494,14 @@ input:checked + .slider:before {
   height: 100%;
   background: var(--bg-primary);
   z-index: 100;
-  display: flex;
+  display: none;
   flex-direction: column;
   transform: translateY(100%);
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .server-modal.open {
+  display: flex;
   transform: translateY(0);
 }
 
