@@ -70,10 +70,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         adBlockEnabled,
         lastConnectedIp,
         serverList = [],
-        customServers = []
+        customServers = [],
+        lastError
       } = response;
 
-      selectedServerId = storedServerId || 'auto';
+      selectedServerId = storedServerId || 'direct-shield';
       currentServers = [...serverList, ...customServers];
 
       // Update Toggles
@@ -95,8 +96,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         isConnected = true;
         container.classList.remove('connecting');
         container.classList.add('connected');
-        statusBadge.textContent = 'CONNECTED & ENCRYPTED';
-        statusCaption.textContent = 'Military-grade proxy encryption active';
+        
+        if (activeServer && activeServer.scheme === 'direct') {
+          statusBadge.textContent = 'PROTECTED (DIRECT SHIELD)';
+          statusCaption.textContent = 'Zero-lag mode • WebRTC IP shield & ad blocker active';
+        } else {
+          statusBadge.textContent = 'CONNECTED & ENCRYPTED';
+          statusCaption.textContent = 'Military-grade proxy encryption active';
+        }
 
         // Uptime counter
         if (connectedAt && !timerInterval) {
@@ -107,7 +114,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (activeServer && activeServer.ping) {
           pingValueEl.textContent = `${activeServer.ping} ms`;
           pingValueEl.style.color = '#10b981';
-          pingStatusEl.textContent = 'Optimal Route';
+          pingStatusEl.textContent = activeServer.scheme === 'direct' ? 'Local Speed' : 'Optimal Route';
         }
 
         // IP Display
@@ -121,14 +128,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         container.classList.remove('connected');
         container.classList.add('connecting');
         statusBadge.textContent = 'CONNECTING SECURELY...';
-        statusCaption.textContent = 'Handshaking with optimal proxy node';
+        statusCaption.textContent = 'Verifying tunnel and pre-flight health...';
         stopSessionTimer();
         maskedIpAddressEl.textContent = 'Negotiating...';
       } else {
         isConnected = false;
         container.classList.remove('connected', 'connecting');
         statusBadge.textContent = 'DISCONNECTED';
-        statusCaption.textContent = 'Your connection is currently unprotected';
+        statusCaption.textContent = lastError || 'Your connection is currently unprotected';
+        if (lastError) {
+          statusCaption.style.color = '#f59e0b';
+        } else {
+          statusCaption.style.color = 'var(--text-muted)';
+        }
         stopSessionTimer();
         pingValueEl.textContent = '-- ms';
         pingValueEl.style.color = '#fff';

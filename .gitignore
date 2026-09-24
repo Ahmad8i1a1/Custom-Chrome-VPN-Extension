@@ -10,6 +10,7 @@ desktop.ini
 *.swo
 
 # Extension Packaging Artifacts
+_metadata/
 *.crx
 *.zip
 *.pem
