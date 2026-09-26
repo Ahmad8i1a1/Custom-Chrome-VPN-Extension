@@ -138,6 +138,17 @@
             <!-- Populated via JS -->
           </div>
         </div>
+
+        <!-- Anti-Censorship & Jump Jump Style Proxy Guide -->
+        <div class="card" style="margin-top: 20px; border-color: rgba(0, 210, 255, 0.3);">
+          <h3>🚀 Pro Tip: Bypassing Regional DPI Firewalls (Jump Jump Style)</h3>
+          <p class="card-desc">In regions with strict DPI firewalls (like Pakistan, UAE, or China), standard unencrypted SOCKS5 ports (1080/8080) are often dropped by ISPs. For 100% reliable connection:</p>
+          <ul style="color: var(--text-muted); margin-left: 20px; font-size: 13px; line-height: 1.8;">
+            <li>Always select <strong>Port 443 (HTTPS)</strong> or <strong>Smart Auto</strong>. Standard HTTPS over port 443 cannot be blocked because it blends into ordinary encrypted web traffic.</li>
+            <li>You can deploy a 100% free Cloudflare Worker (100,000 requests/day forever) and add it here as your personal encrypted tunnel.</li>
+            <li>If you run tools like <em>Clash, v2rayN, Shadowsocks, or Jump Jump</em>, enter <code style="color:var(--cyan)">127.0.0.1</code> and your local socks port (e.g. <code style="color:var(--cyan)">10808</code> or <code style="color:var(--cyan)">7890</code>) above to tunnel Chrome directly through your high-speed core!</li>
+          </ul>
+        </div>
       </section>
 
       <!-- TAB 2: Split Tunneling -->

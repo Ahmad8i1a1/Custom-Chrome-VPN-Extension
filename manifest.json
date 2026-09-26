@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "NexusVPN - Free Fast & Unlimited VPN Proxy",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "High-speed, free & unlimited VPN proxy with WebRTC leak protection, auto-failover, split tunneling, and zero time restrictions.",
   "icons": {
     "16": "icons/icon16.png",

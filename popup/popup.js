@@ -74,7 +74,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         lastError
       } = response;
 
-      selectedServerId = storedServerId || 'direct-shield';
+      // Auto-upgrade stale cached servers to verified Port-443 nodes
+      if (!serverList || serverList.length === 0 || serverList.some((s) => s.name && s.name.includes('Public SOCKS5'))) {
+        const freshRes = await fetch(chrome.runtime.getURL('data/servers.json'));
+        const freshServers = await freshRes.json();
+        serverList = freshServers;
+        await chrome.storage.local.set({ serverList: freshServers, selectedServerId: 'auto' });
+      }
+
+      selectedServerId = storedServerId || 'auto';
       currentServers = [...serverList, ...customServers];
 
       // Update Toggles
@@ -102,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           statusCaption.textContent = 'Zero-lag mode • WebRTC IP shield & ad blocker active';
         } else {
           statusBadge.textContent = 'CONNECTED & ENCRYPTED';
-          statusCaption.textContent = 'Military-grade proxy encryption active';
+          statusCaption.textContent = 'Port-443 Encrypted Tunnel • Anti-DPI Bypass Active';
         }
 
         // Uptime counter
